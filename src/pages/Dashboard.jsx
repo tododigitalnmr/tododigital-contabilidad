@@ -121,9 +121,9 @@ const Dashboard = () => {
       </div>
 
       {/* Stats Grid */}
-      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: '20px', marginBottom: '40px' }}>
+      <div className="grid-responsive" style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: '20px', marginBottom: '40px' }}>
         {stats.map((stat, i) => (
-          <div key={i} style={{ 
+          <div key={i} className="card-stat" style={{ 
             background: 'white', 
             padding: '24px', 
             borderRadius: '20px', 
@@ -155,9 +155,11 @@ const Dashboard = () => {
       </div>
       
       {/* Analytics Charts */}
-      <BillingCharts />
+      <div className="table-container" style={{ marginBottom: '40px' }}>
+        <BillingCharts />
+      </div>
 
-      <div style={{ display: 'grid', gridTemplateColumns: '2fr 1fr', gap: '32px' }}>
+      <div className="grid-responsive" style={{ display: 'grid', gridTemplateColumns: '2fr 1fr', gap: '32px' }}>
         
         {/* Recent Invoices Table */}
         <div style={{ 

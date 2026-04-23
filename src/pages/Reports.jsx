@@ -55,21 +55,21 @@ const Reports = () => {
 
     return (
         <div style={{ animation: 'fadeIn 0.5s ease-out' }}>
-            <div style={{ display: 'flex', alignItems: 'center', gap: '16px', marginBottom: '32px' }}>
+            <div style={{ display: 'flex', alignItems: 'center', gap: '16px', marginBottom: '32px', flexWrap: 'wrap' }}>
                 <button onClick={() => navigate('/')} style={{ background: 'white', border: '1px solid var(--border)', padding: '8px', borderRadius: '8px', cursor: 'pointer' }}>
                     <ArrowLeft size={20} />
                 </button>
-                <div>
-                    <h1 style={{ fontSize: '24px', fontWeight: '800', color: 'var(--primary)' }}>Reportes Contables</h1>
-                    <p style={{ color: 'var(--text-muted)', fontSize: '14px' }}>Tu centro de control para la declaración de impuestos</p>
+                <div style={{ flex: 1, minWidth: '200px' }}>
+                    <h1 style={{ fontSize: '24px', fontWeight: '800', color: 'var(--primary)', margin: 0 }}>Reportes Contables</h1>
+                    <p style={{ color: 'var(--text-muted)', fontSize: '14px', margin: 0 }}>Tu centro de control para la declaración de impuestos</p>
                 </div>
             </div>
 
-            <div style={{ display: 'grid', gridTemplateColumns: '1fr 320px', gap: '32px' }}>
+            <div className="grid-responsive" style={{ display: 'grid', gridTemplateColumns: '1fr 320px', gap: '32px' }}>
                 <div style={{ display: 'flex', flexDirection: 'column', gap: '24px' }}>
                     {/* Selectors */}
-                    <div style={{ background: 'white', padding: '24px', borderRadius: '20px', border: '1px solid var(--border)', display: 'flex', gap: '16px', alignItems: 'center' }}>
-                        <div style={{ flex: 1 }}>
+                    <div style={{ background: 'white', padding: '24px', borderRadius: '20px', border: '1px solid var(--border)', display: 'flex', gap: '16px', alignItems: 'center', flexWrap: 'wrap' }}>
+                        <div style={{ flex: '1 1 150px' }}>
                             <label style={{ display: 'block', fontSize: '12px', fontWeight: '700', marginBottom: '6px', color: 'var(--text-muted)' }}>MES DE DECLARACIÓN</label>
                             <select 
                                 value={selectedMonth} 
@@ -79,7 +79,7 @@ const Reports = () => {
                                 {months.map((m, i) => <option key={i} value={i}>{m}</option>)}
                             </select>
                         </div>
-                        <div style={{ flex: 1 }}>
+                        <div style={{ flex: '1 1 150px' }}>
                             <label style={{ display: 'block', fontSize: '12px', fontWeight: '700', marginBottom: '6px', color: 'var(--text-muted)' }}>AÑO</label>
                             <select 
                                 value={selectedYear} 
@@ -91,13 +91,13 @@ const Reports = () => {
                                 <option value={2026}>2026</option>
                             </select>
                         </div>
-                        <button onClick={handleDownload} style={{ marginTop: '20px', background: 'var(--accent)', color: 'white', border: 'none', padding: '12px 24px', borderRadius: '12px', fontWeight: '700', display: 'flex', alignItems: 'center', gap: '10px', cursor: 'pointer' }}>
+                        <button onClick={handleDownload} style={{ background: 'var(--accent)', color: 'white', border: 'none', padding: '12px 24px', borderRadius: '12px', fontWeight: '700', display: 'flex', alignItems: 'center', gap: '10px', cursor: 'pointer', width: '100%', justifyContent: 'center' }}>
                             <Download size={20} /> Exportar CSV
                         </button>
                     </div>
 
                     {/* Invoices List */}
-                    <div style={{ background: 'white', borderRadius: '20px', border: '1px solid var(--border)', overflow: 'hidden' }}>
+                    <div className="table-container" style={{ background: 'white', borderRadius: '20px', border: '1px solid var(--border)' }}>
                         <table style={{ width: '100%', borderCollapse: 'collapse' }}>
                             <thead style={{ background: '#f8fafc', borderBottom: '1px solid var(--border)' }}>
                                 <tr style={{ textAlign: 'left' }}>

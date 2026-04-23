@@ -100,7 +100,7 @@ const Inventory = () => {
         alignItems: 'center', 
         marginBottom: '24px' 
       }}>
-        <div style={{ position: 'relative', width: '330px' }}>
+        <div style={{ position: 'relative', width: '100%', maxWidth: '330px' }}>
           <Search size={18} style={{ position: 'absolute', left: '12px', top: '50%', transform: 'translateY(-50%)', color: 'var(--text-light)' }} />
           <input 
             type="text" 
@@ -121,6 +121,7 @@ const Inventory = () => {
         </div>
 
         <button 
+          className="desktop-only"
           onClick={() => setIsModalOpen(true)}
           style={{ 
             background: 'var(--accent)', 
@@ -139,11 +140,10 @@ const Inventory = () => {
         </button>
       </div>
 
-      <div style={{ 
+      <div className="table-container" style={{ 
         background: 'white', 
         borderRadius: '16px', 
         border: '1px solid var(--border)', 
-        overflow: 'hidden',
         boxShadow: 'var(--shadow-sm)'
       }}>
         <table style={{ width: '100%', borderCollapse: 'collapse', textAlign: 'left' }}>

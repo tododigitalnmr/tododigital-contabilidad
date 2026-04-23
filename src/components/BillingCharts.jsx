@@ -8,7 +8,7 @@ const BillingCharts = () => {
     const maxVal = Math.max(...salesData);
 
     return (
-        <div style={{ display: 'grid', gridTemplateColumns: '1.5fr 1fr', gap: '24px', marginBottom: '32px' }}>
+        <div className="grid-responsive" style={{ display: 'grid', gridTemplateColumns: '1.5fr 1fr', gap: '24px', marginBottom: '32px' }}>
             
             {/* Sales Performance Chart (SVG Custom) */}
             <div style={{ background: 'white', padding: '24px', borderRadius: '20px', border: '1px solid var(--border)', boxShadow: 'var(--shadow-sm)' }}>

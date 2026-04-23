@@ -114,6 +114,7 @@ const Clients = () => {
           <p style={{ color: 'var(--text-muted)' }}>Gestión centralizada de contactos y datos fiscales</p>
         </div>
         <button 
+          className="desktop-only"
           onClick={() => setIsModalOpen(true)}
           style={{ 
             background: 'var(--accent)', 
@@ -136,7 +137,7 @@ const Clients = () => {
 
       <div style={{ background: 'white', borderRadius: '20px', border: '1px solid var(--border)', overflow: 'hidden', boxShadow: 'var(--shadow-sm)' }}>
         <div style={{ padding: '24px', borderBottom: '1px solid var(--border)', background: '#f8fafc' }}>
-            <div style={{ position: 'relative', width: '400px' }}>
+            <div style={{ position: 'relative', width: '100%', maxWidth: '400px' }}>
                 <Search size={18} style={{ position: 'absolute', left: '16px', top: '50%', transform: 'translateY(-50%)', color: 'var(--text-light)' }} />
                 <input 
                     type="text" 
@@ -148,7 +149,8 @@ const Clients = () => {
             </div>
         </div>
 
-        <table style={{ width: '100%', borderCollapse: 'collapse' }}>
+        <div className="table-container">
+            <table style={{ width: '100%', borderCollapse: 'collapse' }}>
           <thead>
             <tr style={{ textAlign: 'left', borderBottom: '1px solid var(--border)' }}>
               <th style={{ padding: '16px 24px', fontSize: '12px', fontWeight: '700', color: 'var(--text-muted)', textTransform: 'uppercase' }}>Cliente / Empresa</th>
@@ -200,6 +202,8 @@ const Clients = () => {
             ))}
           </tbody>
         </table>
+        
+        </div>
         
         {loading && (
             <div style={{ padding: '60px', textAlign: 'center', color: 'var(--text-muted)' }}>Cargando clientes...</div>
