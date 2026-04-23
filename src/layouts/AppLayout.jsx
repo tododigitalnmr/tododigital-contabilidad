@@ -33,8 +33,8 @@ const AppLayout = ({ children }) => {
         height: '100vh',
         zIndex: 50
       }}>
-        <div style={{ display: 'flex', alignItems: 'center', gap: '10px', marginBottom: '40px' }}>
-          <img src="/logo_contabilidad.png" alt="TodoDigital Logo" style={{ height: '45px', objectFit: 'contain' }} />
+        <div style={{ display: 'flex', alignItems: 'center', gap: '10px', marginBottom: '40px', padding: '0 8px' }}>
+          <img src="/logo_contabilidad.png" alt="TodoDigital Logo" style={{ height: '70px', width: 'auto', objectFit: 'contain' }} />
         </div>
 
         <nav style={{ flex: 1 }}>
