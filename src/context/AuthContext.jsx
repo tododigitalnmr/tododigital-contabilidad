@@ -1,15 +1,17 @@
 import React, { createContext, useContext, useState, useEffect } from 'react';
 import { auth, db } from '../firebase';
-import { onAuthStateChanged } from 'firebase/auth';
-import { doc, getDoc } from 'firebase/firestore';
 
 const AuthContext = createContext();
 
 export const useAuth = () => useContext(AuthContext);
 
 export const AuthProvider = ({ children }) => {
-    const [user, setUser] = useState(null);
+    const [user, setUser] = useState(() => {
+        const saved = localStorage.getItem('user');
+        return saved ? JSON.parse(saved) : null;
+    });
     const [loading, setLoading] = useState(true);
+    
     const [availableTenants, setAvailableTenants] = useState(() => {
         const saved = localStorage.getItem('availableTenants');
         if (saved) return JSON.parse(saved);
@@ -31,9 +33,23 @@ export const AuthProvider = ({ children }) => {
     });
 
     useEffect(() => {
-        setUser({ email: 'admin@tododigital.com' });
         setLoading(false);
     }, []);
+
+    const login = (email, pass) => {
+        if (pass === '030710') {
+            const userData = { email, lastLogin: new Date() };
+            setUser(userData);
+            localStorage.setItem('user', JSON.stringify(userData));
+            return true;
+        }
+        return false;
+    };
+
+    const logout = () => {
+        setUser(null);
+        localStorage.removeItem('user');
+    };
 
     const switchBusiness = (tenantId) => {
         const tenant = availableTenants.find(t => t.id === tenantId);
@@ -60,7 +76,9 @@ export const AuthProvider = ({ children }) => {
         availableTenants,
         currentTenant,
         switchBusiness,
-        updateTenant
+        updateTenant,
+        login,
+        logout
     };
 
     return (

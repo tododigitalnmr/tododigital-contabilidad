@@ -1,16 +1,27 @@
 import React, { useState } from 'react';
-import { ShieldCheck, Mail, Lock, Loader2 } from 'lucide-react';
+import { Mail, Lock, Loader2, AlertCircle } from 'lucide-react';
+import { useAuth } from '../context/AuthContext';
 
 const Login = () => {
+    const { login } = useAuth();
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [loading, setLoading] = useState(false);
+    const [error, setError] = useState('');
 
     const handleSubmit = (e) => {
         e.preventDefault();
         setLoading(true);
-        // Lógica de Firebase vendrá aquí
-        setTimeout(() => setLoading(false), 1500); 
+        setError('');
+        
+        const success = login(email, password);
+        
+        if (success) {
+            // El usuario ya se actualizó en el contexto y provocará la redirección en App.jsx
+        } else {
+            setError('Contraseña incorrecta. Por favor intenta de nuevo.');
+            setLoading(false);
+        }
     };
 
     return (
@@ -25,29 +36,47 @@ const Login = () => {
             <div style={{
                 width: '100%',
                 maxWidth: '420px',
-                background: 'var(--bg-card)',
+                background: 'var(--primary)',
                 borderRadius: 'var(--radius-lg)',
-                boxShadow: '0 25px 50px -12px rgba(0, 0, 0, 0.5)',
+                boxShadow: '0 25px 50px -12px rgba(0, 0, 0, 0.7)',
                 padding: '48px 40px',
-                position: 'relative'
+                position: 'relative',
+                border: '1px solid rgba(255,255,255,0.05)'
             }}>
                 <div style={{ textAlign: 'center', marginBottom: '40px' }}>
                     <img src="/logo_contabilidad.png" alt="Logo" style={{ height: '80px', marginBottom: '24px', objectFit: 'contain' }} />
-                    <h1 style={{ fontSize: '28px', color: 'var(--primary)', fontWeight: '700', marginBottom: '8px' }}>
+                    <h1 style={{ fontSize: '28px', color: 'white', fontWeight: '700', marginBottom: '8px' }}>
                         Portal Fiscal
                     </h1>
-                    <p style={{ color: 'var(--text-muted)', fontSize: '15px' }}>
+                    <p style={{ color: 'rgba(255,255,255,0.6)', fontSize: '15px' }}>
                         Gestión TodoDigital NMR Contabilidad
                     </p>
                 </div>
 
                 <form onSubmit={handleSubmit}>
+                    {error && (
+                        <div style={{
+                            background: 'rgba(239, 68, 68, 0.1)',
+                            color: '#FCA5A5',
+                            padding: '12px',
+                            borderRadius: 'var(--radius-md)',
+                            marginBottom: '20px',
+                            fontSize: '14px',
+                            display: 'flex',
+                            alignItems: 'center',
+                            gap: '8px',
+                            border: '1px solid rgba(239, 68, 68, 0.2)'
+                        }}>
+                            <AlertCircle size={16} />
+                            {error}
+                        </div>
+                    )}
                     <div style={{ marginBottom: '20px' }}>
-                        <label style={{ display: 'block', marginBottom: '8px', fontSize: '14px', fontWeight: '600', color: 'var(--text-main)' }}>
+                        <label style={{ display: 'block', marginBottom: '8px', fontSize: '14px', fontWeight: '600', color: 'rgba(255,255,255,0.8)' }}>
                             Correo Electrónico
                         </label>
                         <div style={{ position: 'relative' }}>
-                            <Mail size={18} style={{ position: 'absolute', left: '12px', top: '50%', transform: 'translateY(-50%)', color: 'var(--text-light)' }} />
+                            <Mail size={18} style={{ position: 'absolute', left: '12px', top: '50%', transform: 'translateY(-50%)', color: 'rgba(255,255,255,0.4)' }} />
                             <input
                                 type="email"
                                 placeholder="tu@correo.com"
@@ -57,9 +86,11 @@ const Login = () => {
                                     width: '100%',
                                     padding: '12px 12px 12px 40px',
                                     borderRadius: 'var(--radius-md)',
-                                    border: '1px solid var(--border)',
+                                    border: '1px solid rgba(255,255,255,0.1)',
+                                    background: 'rgba(255,255,255,0.05)',
                                     outline: 'none',
-                                    fontSize: '15px'
+                                    fontSize: '15px',
+                                    color: 'white'
                                 }}
                                 required
                             />
@@ -67,11 +98,11 @@ const Login = () => {
                     </div>
 
                     <div style={{ marginBottom: '32px' }}>
-                        <label style={{ display: 'block', marginBottom: '8px', fontSize: '14px', fontWeight: '600', color: 'var(--text-main)' }}>
+                        <label style={{ display: 'block', marginBottom: '8px', fontSize: '14px', fontWeight: '600', color: 'rgba(255,255,255,0.8)' }}>
                             Contraseña
                         </label>
                         <div style={{ position: 'relative' }}>
-                            <Lock size={18} style={{ position: 'absolute', left: '12px', top: '50%', transform: 'translateY(-50%)', color: 'var(--text-light)' }} />
+                            <Lock size={18} style={{ position: 'absolute', left: '12px', top: '50%', transform: 'translateY(-50%)', color: 'rgba(255,255,255,0.4)' }} />
                             <input
                                 type="password"
                                 placeholder="••••••••"
@@ -81,9 +112,11 @@ const Login = () => {
                                     width: '100%',
                                     padding: '12px 12px 12px 40px',
                                     borderRadius: 'var(--radius-md)',
-                                    border: '1px solid var(--border)',
+                                    border: '1px solid rgba(255,255,255,0.1)',
+                                    background: 'rgba(255,255,255,0.05)',
                                     outline: 'none',
-                                    fontSize: '15px'
+                                    fontSize: '15px',
+                                    color: 'white'
                                 }}
                                 required
                             />
@@ -113,7 +146,7 @@ const Login = () => {
                 </form>
 
                 <div style={{ marginTop: '32px', textAlign: 'center' }}>
-                    <a href="#" style={{ fontSize: '14px', color: 'var(--accent)', fontWeight: '500' }}>
+                    <a href="#" style={{ fontSize: '14px', color: 'rgba(255,255,255,0.4)', fontWeight: '500' }}>
                         ¿Olvidaste tu contraseña?
                     </a>
                 </div>
