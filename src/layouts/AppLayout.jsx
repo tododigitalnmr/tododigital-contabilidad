@@ -1,3 +1,5 @@
+import React from 'react';
+import { useAuth } from '../context/AuthContext';
 import { ShieldCheck, Layout, Building2, Settings, LogOut, Plus, Zap, FileText, ClipboardList, Calculator, Menu, X } from 'lucide-react';
 import { Link, useLocation } from 'react-router-dom';
 import DigitAssistant from '../components/DigitAssistant';
