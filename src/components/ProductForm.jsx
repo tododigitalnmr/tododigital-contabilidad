@@ -63,7 +63,7 @@ const ProductForm = ({ isOpen, onClose, onSave }) => {
 
         {/* Form Body */}
         <form onSubmit={handleSubmit} style={{ padding: '32px' }}>
-          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '20px' }}>
+          <div className="grid-responsive" style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '20px' }}>
             
             <div style={{ gridColumn: 'span 2' }}>
               <label style={{ display: 'block', marginBottom: '8px', fontSize: '13px', fontWeight: '600', color: 'var(--text-main)' }}>Descripción / Concepto</label>

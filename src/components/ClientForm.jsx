@@ -95,7 +95,7 @@ const ClientForm = ({ isOpen, onClose, onSave }) => {
 
         {/* Form Body - Scrollable */}
         <form onSubmit={handleSubmit} style={{ padding: '32px', overflowY: 'auto', flex: 1 }}>
-          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '24px' }}>
+          <div className="grid-responsive" style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '24px' }}>
             
             {/* --- SECCIÓN FISCAL --- */}
             <div style={{ gridColumn: 'span 2', paddingBottom: '8px', borderBottom: '1px solid #f1f5f9', marginBottom: '8px' }}>
