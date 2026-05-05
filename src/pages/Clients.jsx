@@ -26,25 +26,30 @@ const Clients = () => {
       let data = querySnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
       
       // Combinar con locales de este tenant si existen
-      const localClients = JSON.parse(localStorage.getItem(`clients_${currentTenant.id}`) || '[]');
-      let combined = [...data, ...localClients].filter((v, i, a) => a.findIndex(t => (t.rfc === v.rfc)) === i);
+      let localData = localStorage.getItem(`clients_${currentTenant.id}`);
+      let localClients = [];
       
-      // Si no hay nada, inyectar Demo Client
-      if (combined.length === 0) {
-        const demoClients = [
-            { id: 'demo-cli-1', name: 'CLIENTE DE PRUEBA SA DE CV', rfc: 'XAXX010101000', email: 'demo@ejemplo.com', cp: '64000', phone: '8100000000', city: 'Monterrey, NL', regimen: '601' }
+      if (!localData) {
+        // Inicializar con Demo Client si es la primera vez (no hay registro en local)
+        localClients = [
+            { id: 'demo-cli-1', name: 'CLIENTE DE PRUEBA SA DE CV', rfc: 'XAXX010101000', email: 'demo@ejemplo.com', cp: '64000', phone: '8100000000', city: 'Monterrey, NL', regimen: '601', tenantId: currentTenant.id }
         ];
-        combined = demoClients;
+        localStorage.setItem(`clients_${currentTenant.id}`, JSON.stringify(localClients));
+      } else {
+        localClients = JSON.parse(localData);
       }
 
+      let combined = [...data, ...localClients].filter((v, i, a) => a.findIndex(t => (t.rfc === v.rfc)) === i);
+      
       setClients(combined.sort((a,b) => a.name.localeCompare(b.name)));
     } catch (error) {
       console.error("Error fetching clients:", error);
       // Fallback total a local
-      const localClients = JSON.parse(localStorage.getItem(`clients_${currentTenant.id}`) || '[]');
-      setClients(localClients.length > 0 ? localClients : [
-        { id: 'demo-cli-1', name: 'CLIENTE DE PRUEBA SA DE CV', rfc: 'XAXX010101000', email: 'demo@ejemplo.com', cp: '64000', phone: '8100000000', city: 'Monterrey, NL', regimen: '601' }
-      ]);
+      const localData = localStorage.getItem(`clients_${currentTenant.id}`);
+      const localClients = localData ? JSON.parse(localData) : [
+        { id: 'demo-cli-1', name: 'CLIENTE DE PRUEBA SA DE CV', rfc: 'XAXX010101000', email: 'demo@ejemplo.com', cp: '64000', phone: '8100000000', city: 'Monterrey, NL', regimen: '601', tenantId: currentTenant.id }
+      ];
+      setClients(localClients);
     } finally {
       setLoading(false);
     }
