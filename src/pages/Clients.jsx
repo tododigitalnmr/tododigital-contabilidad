@@ -14,6 +14,7 @@ const Clients = () => {
 
   // Cargar clientes desde Firestore con aislamiento de tenant y fallback local
   const fetchClients = async () => {
+    if (!currentTenant) return;
     setLoading(true);
     try {
       // Intentar cargar de Firestore
@@ -29,8 +30,8 @@ const Clients = () => {
       let localData = localStorage.getItem(`clients_${currentTenant.id}`);
       let localClients = [];
       
-      if (!localData) {
-        // Inicializar con Demo Client si es la primera vez (no hay registro en local)
+      if (!localData || localData === '[]') {
+        // Inicializar con Demo Client si es la primera vez (no hay registro en local o está vacío)
         localClients = [
             { id: 'demo-cli-1', name: 'CLIENTE DE PRUEBA SA DE CV', rfc: 'XAXX010101000', email: 'demo@ejemplo.com', cp: '64000', phone: '8100000000', city: 'Monterrey, NL', regimen: '601', tenantId: currentTenant.id }
         ];
@@ -41,12 +42,12 @@ const Clients = () => {
 
       let combined = [...data, ...localClients].filter((v, i, a) => a.findIndex(t => (t.rfc === v.rfc)) === i);
       
-      setClients(combined.sort((a,b) => a.name.localeCompare(b.name)));
+      setClients(combined.sort((a,b) => (a.name || '').localeCompare(b.name || '')));
     } catch (error) {
       console.error("Error fetching clients:", error);
       // Fallback total a local
       const localData = localStorage.getItem(`clients_${currentTenant.id}`);
-      const localClients = localData ? JSON.parse(localData) : [
+      const localClients = (localData && localData !== '[]') ? JSON.parse(localData) : [
         { id: 'demo-cli-1', name: 'CLIENTE DE PRUEBA SA DE CV', rfc: 'XAXX010101000', email: 'demo@ejemplo.com', cp: '64000', phone: '8100000000', city: 'Monterrey, NL', regimen: '601', tenantId: currentTenant.id }
       ];
       setClients(localClients);

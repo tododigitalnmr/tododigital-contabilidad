@@ -15,6 +15,7 @@ const Inventory = () => {
   // Cargar productos del negocio actual
   useEffect(() => {
     const fetchProducts = async () => {
+      if (!currentTenant) return;
       setLoading(true);
       setProducts([]); // Limpiar estado anterior para evitar leaks entre tenants
       try {
@@ -27,7 +28,7 @@ const Inventory = () => {
         let localData = localStorage.getItem(`inventory_${currentTenant.id}`);
         let localItems = [];
 
-        if (!localData) {
+        if (!localData || localData === '[]') {
             const demoMap = {
                 'tenant-1': [
                     { id: 'IT-001', description: 'Desarrollo Web Corporativo', price: 18500, satProduct: '81111500', satUnit: 'E48', taxRate: '16', tenantId: 'tenant-1' },
@@ -65,7 +66,8 @@ const Inventory = () => {
       } catch (error) {
         console.error("Error loading products:", error);
         // Fallback total a local si falla Firebase
-        const localItems = JSON.parse(localStorage.getItem(`inventory_${currentTenant.id}`) || '[]');
+        const localData = localStorage.getItem(`inventory_${currentTenant.id}`);
+        const localItems = (localData && localData !== '[]') ? JSON.parse(localData) : [];
         setProducts(localItems);
       }
       setLoading(false);
